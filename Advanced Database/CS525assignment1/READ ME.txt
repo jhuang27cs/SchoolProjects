@@ -1,0 +1,86 @@
+# Assignment 1 - Storage Manager Statement
+The goal of this assignment is to implement a simple storage manager - a module that is capable of reading blocks from a file on disk into memory and writing blocks from memory to a file on disk. The storage manager deals with pages (blocks) of fixed size (PAGE_SIZE). In addition to reading and writing pages from a file, it provides methods for creating, opening, and closing files. The storage manager has to maintain several types of information for an open file: The number of total pages in the file, the current page position (for reading and writing), the file name, and a POSIX file descriptor or FILE pointer. 
+
+# How to run 
+with the given test case
+
+Compile : make assign1_1
+Run : ./assign1_1
+
+# Environment 
+Mac OS
+
+#Compiler
+X code
+ 
+#PageFile Related Functions
+
+sManager
+THis structure contains a list of handler and the number of handleCount to manage the handler of files.
+
+getLastPageNo
+This function returns the last pageNo of the file. The BYTES_TO_PAGE is used for calculating the page number according to the Bytes.
+
+isFileHandleOpen
+This function is used for checking the file handle list available or not.
+
+addFileHandle
+This function is used for add the handle to list
+
+deleteFileHandle
+This funciton is used for delete the handle from the list
+
+initStorageManager
+This function is used for initialize the storage manager
+
+createPageFile
+This funciton is used for create page file if not exists, and add 1 page with zerobytes of page size. And return RC_WRITE_FAILED if the pagefile cannot be created.
+
+openPageFile
+This function is used for opening the page file and add it to the handle list. It will first check if the file handle has been open or not. If the file can't open, will return RC_FILE_NOT_FOUND
+
+closePageFile
+This function is used for closing the page file and delete it from the handle list. It will first check if the file handle has been open or not. and close the file and deleteFileHandle to the handle list.
+
+Destroy the page file
+This function is used for removing the file.
+
+# Read Page Related Function
+
+readB
+This function is used for read page from opened file. It will check if the page number is valid, and check if the file is open. After that, it will seek the file. If the file is found, reads the file page into mempage. 
+
+getBlockPos
+This return the current page position
+
+readFirstBlock
+This function will read the first block by providing the pageNum argument as 0 to the readB function
+
+readPreviousBlock
+This function will read the previous block by providing the pageNum argument as curPagePos-1 to the readB function.
+
+readCurrentBlock
+This function will read the current block by providing the pageNum argument as curPagePos to the readB function.
+
+readNextBlock
+This function will read the next block by providing the pageNum argument as curPagePos+1 to the readB function.
+
+readLastBlock
+This function will ead the last block by providing the pageNum argument as totalNumPages to the readB function.
+
+writeBlock
+This function will write blocks to a opened page file. Checks if the page number given by the user is less than total number of pages in a file i.e page number is valid. If the page number entered is greater than the total number return an error message. If can't open, will return RC_WRITE_ERROR.
+
+writeCurrentBlock
+This function is used for writing the current block by passing the cuPagePos into the writeBlock function.
+
+appendEmptyBlock
+This function is used for finding the end of the page file and attach one more page after it. If the file can't open, it will return RC_FILE_NOT_FOUND. If can't been open, will return RC_WRITE_ERROR
+
+ensureCapacity
+This function is used for checking if the page file still has enough capacity, if not use appendEmptyBlock function to create more pages.
+
+#TeamMember
+YIZHI GU A20334298
+SICHAO LI A20337719
+JIE HUANG A20279698
